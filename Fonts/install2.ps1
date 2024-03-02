@@ -1,7 +1,8 @@
 #Set Parameters
-$FileURL = 'https://github.com/MvnSwr/Fonts/archive/refs/heads/main.zip'
+$FileURL = 'https://github.com/MvnSwr/Intune-Deployment/archive/refs/heads/main.zip'
 $LocalFolderPath = 'C:\temp'
- 
+$LocalFolderFonts = 'C:\temp\font'
+
 Try {
     #Ensure the destination local folder exists! 
     if (!(Test-Path -path $LocalFolderPath))
@@ -9,6 +10,7 @@ Try {
          #If it doesn't exists, Create
          New-Item $LocalFolderPath -type directory 
     }
+	New-Item $LocalFolderFonts -type directory
  
 	#download fonts
 	Invoke-WebRequest -Uri $FileURL -OutFile 'C:\temp\main.zip'
@@ -18,12 +20,17 @@ Try {
 	#unzip files
 	
 	Expand-Archive -LiteralPath 'C:\temp\main.zip' -DestinationPath 'C:\temp' -Force
+
+	Write-host -f Green 'Github-files unziped Successfully!'
+
+	Expand-Archive -LiteralPath 'C:\temp\Intune-Deployment-main\Fonts\Fonts\Roboto.zip' -DestinationPath 'C:\temp\font' -Force
 	
-	Write-host -f Green 'Files unziped Successfully!'
+	Write-host -f Green 'Font-files unziped Successfully!'
+
 
 	#install fonts
 	
-	$FontList = Get-Item -Path 'C:\temp\Fonts-main\*' -Include ('*.fon','*.otf','*.ttc','*.ttf') -Force
+	$FontList = Get-Item -Path 'C:\temp\font\*' -Include ('*.fon','*.otf','*.ttc','*.ttf') -Force
 
 	foreach ($Font in $FontList) {
 			Write-Host 'Installing font -' $Font.BaseName
@@ -33,12 +40,12 @@ Try {
 	
 	#delete data from temp
 	
-	Remove-Item -LiteralPath 'C:\temp\Fonts-main' -Force -Recurse
+	Remove-Item -LiteralPath 'C:\temp\Intune-Deployment-main' -Force -Recurse
+	Remove-Item -LiteralPath 'C:\temp\font' -Force -Recurse
 	Remove-Item -LiteralPath 'C:\temp\main.zip' -Force -Recurse
 	
 	Write-host -f Green 'Files deleted Successfully!'
 	
-}
-Catch {
-Write-host -f Red 'Error:' $_.Exception.Message
+}Catch {
+	Write-host -f Red 'Error:' $_.Exception.Message
 }
