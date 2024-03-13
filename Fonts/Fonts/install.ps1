@@ -1,3 +1,4 @@
+#fonts are hand over with this script
 $LocalFolderPath = 'C:\temp\Roboto'
  
 Try {
