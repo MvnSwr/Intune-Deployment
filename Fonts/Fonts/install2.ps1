@@ -1,3 +1,4 @@
+#Fonts are downloaded from this Repo
 #Set Parameters
 $FileURL = 'https://github.com/MvnSwr/Intune-Deployment/archive/refs/heads/main.zip'
 $LocalFolderPath = 'C:\temp'
